@@ -23,7 +23,7 @@ architecture, featuring blockchain integration for transaction transparency and 
 This project demonstrates a production-ready microservices architecture for an e-commerce
 platform with blockchain integration. The system handles user authentication, product
 management, order processing, payments, and user-generated content through independently
-\deployable services that communicate via an event-driven architecture.
+deployable services that communicate via an event-driven architecture.
 
 ### Key Features
 
@@ -177,7 +177,7 @@ management, order processing, payments, and user-generated content through indep
 - `product.inventory.low`
 
 **Events Consumed**:
-- `order.completed` → Update inventory
+- `order.confirmed` → Update inventory
 
 **Endpoints**:
 - `GET /api/products` - List products

@@ -1,0 +1,13 @@
+{
+  "name": "common",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "winston": "^3.11.0"
+  },
+  "scripts": {
+    "test": "node --test test/",
+    "lint": "eslint ."
+  }
+}

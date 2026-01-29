@@ -1,0 +1,27 @@
+{
+  "name": "ecommerce-microservices",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Blockchain-integrated e-commerce microservices platform",
+  "scripts": {
+    "install:all": "npm install && (cd common && npm install) 2>/dev/null; (cd gateway && npm install) 2>/dev/null; for d in services/auth services/product services/comments services/payment services/order; do [ -d \"$d\" ] && (cd \"$d\" && npm install); done; true",
+    "dev": "echo 'Start individual services: npm run dev:auth, dev:product, etc.'",
+    "dev:gateway": "cd gateway && npm run dev",
+    "dev:auth": "cd services/auth && npm run dev",
+    "dev:product": "cd services/product && npm run dev",
+    "dev:comments": "cd services/comments && npm run dev",
+    "dev:payment": "cd services/payment && npm run dev",
+    "dev:order": "cd services/order && npm run dev",
+    "test": "npm run test:common 2>/dev/null; npm run test:gateway 2>/dev/null; for d in services/auth services/product services/comments services/payment services/order; do [ -d \"$d\" ] && (cd \"$d\" && npm test); done; true",
+    "test:common": "cd common && npm test",
+    "test:gateway": "cd gateway && npm test",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:build": "docker compose build",
+    "lint": "npm run lint:common 2>/dev/null; npm run lint:gateway 2>/dev/null; for d in services/auth services/product services/comments services/payment services/order; do [ -d \"$d\" ] && (cd \"$d\" && npm run lint); done; true",
+    "lint:common": "cd common && npm run lint"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

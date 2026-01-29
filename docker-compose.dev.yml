@@ -1,0 +1,11 @@
+# Extends docker-compose.yml for local dev (same infra; override if needed)
+services:
+  mongodb:
+    ports:
+      - "27017:27017"
+  postgres:
+    ports:
+      - "5432:5432"
+  redis:
+    ports:
+      - "6379:6379"
