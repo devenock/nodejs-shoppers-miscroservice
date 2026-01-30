@@ -508,6 +508,9 @@ BLOCKCHAIN_RPC_URL=http://blockchain:8545
 
 ## 📚 API Documentation
 
+- **[API and Testing Guide](docs/API_AND_TESTING.md)** – How to test all endpoints (curl examples, base URL, auth).
+- **[Architecture and Flows](docs/ARCHITECTURE_AND_FLOWS.md)** – What was built (Phases 0–7), decisions, and flow of every service (events in/out, saga).
+
 ### Authentication
 
 All API requests (except auth endpoints) require JWT authentication:

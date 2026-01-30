@@ -42,6 +42,133 @@ services:
       timeout: 5s
       retries: 5
 
+  auth-service:
+    build:
+      context: .
+      dockerfile: services/auth/Dockerfile
+    container_name: auth-service
+    environment:
+      PORT: 3001
+      SERVICE_NAME: auth-service
+      DB_HOST: mongodb
+      DB_PORT: 27017
+      DB_NAME: auth_db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      JWT_EXPIRY: 24h
+    ports:
+      - "3001:3001"
+    depends_on:
+      mongodb: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+  product-service:
+    build:
+      context: .
+      dockerfile: services/product/Dockerfile
+    container_name: product-service
+    environment:
+      PORT: 3002
+      SERVICE_NAME: product-service
+      DB_HOST: mongodb
+      DB_PORT: 27017
+      DB_NAME: product_db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+    ports:
+      - "3002:3002"
+    depends_on:
+      mongodb: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+  comments-service:
+    build:
+      context: .
+      dockerfile: services/comments/Dockerfile
+    container_name: comments-service
+    environment:
+      PORT: 3003
+      SERVICE_NAME: comments-service
+      DB_HOST: mongodb
+      DB_PORT: 27017
+      DB_NAME: comments_db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+    ports:
+      - "3003:3003"
+    depends_on:
+      mongodb: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: services/payment/Dockerfile
+    container_name: payment-service
+    environment:
+      PORT: 3004
+      SERVICE_NAME: payment-service
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: payment_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+    ports:
+      - "3004:3004"
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+  order-service:
+    build:
+      context: .
+      dockerfile: services/order/Dockerfile
+    container_name: order-service
+    environment:
+      PORT: 3005
+      SERVICE_NAME: order-service
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: order_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+    ports:
+      - "3005:3005"
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: gateway
+    environment:
+      PORT: 3000
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      AUTH_SERVICE_URL: http://auth-service:3001
+      PRODUCT_SERVICE_URL: http://product-service:3002
+      COMMENTS_SERVICE_URL: http://comments-service:3003
+      PAYMENT_SERVICE_URL: http://payment-service:3004
+      ORDER_SERVICE_URL: http://order-service:3005
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth-service
+      - product-service
+      - comments-service
+      - payment-service
+      - order-service
+
 volumes:
   mongodb_data:
   postgres_data:

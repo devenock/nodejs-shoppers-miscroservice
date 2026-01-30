@@ -18,6 +18,8 @@
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "docker:build": "docker compose build",
+    "seed": "node scripts/seed.js",
+    "e2e": "node scripts/e2e-order-flow.js",
     "lint": "npm run lint:common 2>/dev/null; npm run lint:gateway 2>/dev/null; for d in services/auth services/product services/comments services/payment services/order; do [ -d \"$d\" ] && (cd \"$d\" && npm run lint); done; true",
     "lint:common": "cd common && npm run lint"
   },
